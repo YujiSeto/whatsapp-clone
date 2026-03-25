@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState/*, useEffect*/ } from "react";
 import "./App.css";
 
 import ChatListItem from "./components/ChatListItem";
@@ -8,9 +8,9 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default () => {
+const App = () => {
 
-  const [chatList, setChatList] = useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
+  const [chatList/*, setChatList*/] = useState([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
 
   return (
     <div className="app-window">
@@ -51,3 +51,5 @@ export default () => {
     </div>
   );
 };
+
+export default App;

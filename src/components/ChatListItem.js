@@ -1,7 +1,7 @@
 import React from 'react';
 import './ChatListItem.css';
 
-export default () => {
+const ChatListItem = () => {
   return (
     <div className="chatListItem">
       <img className="chatListItem--avatar" src="https://www.w3schools.com/w3images/avatar2.png" alt="" />
@@ -19,3 +19,5 @@ export default () => {
     </div>
   )
 }
+
+export default ChatListItem;
