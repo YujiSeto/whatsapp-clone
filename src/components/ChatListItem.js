@@ -1,7 +1,7 @@
 import React from "react";
 import "./ChatListItem.css";
 
-export default ({ onClick, active, data }) => {
+const ChatListItem = ({ onClick, active, data }) => {
   return (
     <div className={`chatListItem ${active ? "active" : ""}`} onClick={onClick}>
       <img className="chatListItem--avatar" src={data.image} alt="" />
@@ -19,3 +19,6 @@ export default ({ onClick, active, data }) => {
     </div>
   );
 };
+
+export default ChatListItem;
+
