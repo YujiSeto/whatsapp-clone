@@ -5,7 +5,11 @@
 body {
   background-color: #d2dbdc;
   margin: 0;
-  font-family: "Segoe UI", Helvetica, Lucida Grande, Arial;
+  font-family:
+    "Segoe UI",
+    Helvetica,
+    Lucida Grande,
+    Arial;
 }
 .app-window {
   display: flex;
@@ -67,7 +71,7 @@ header {
 .chatlist {
   flex: 1;
   background-color: #fff;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 .chatlist::-webkit-scrollbar {
   width: 6px;
@@ -77,5 +81,5 @@ header {
   background-color: rgba(0, 0, 0, 0.2);
 }
 .contentarea {
-
+  flex: 1;
 }
