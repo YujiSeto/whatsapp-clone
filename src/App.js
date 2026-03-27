@@ -1,4 +1,4 @@
-import React, { useState /*, useEffect*/ } from "react";
+import { useState } from "react";
 import "./App.css";
 
 import ChatListItem from "./components/ChatListItem";
@@ -11,40 +11,45 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 
 const App = () => {
-  const [chatList, setChatList] = useState([
+  const [chatList, /*setChatList*/] = useState([
     {
       chatId: 1,
       title: "James Miller",
       image: "https://www.w3schools.com/w3images/avatar1.png",
-      lastMessage: "I'll be there in 5 minutes! I'm just finishing up some things at the office.",
+      lastMessage:
+        "I'll be there in 5 minutes! I'm just finishing up some things at the office.",
       time: "19:45",
     },
     {
       chatId: 2,
       title: "Robert Brown",
       image: "https://www.w3schools.com/w3images/avatar2.png",
-      lastMessage: "Did you see the latest news about the framework update? It looks promising.",
+      lastMessage:
+        "Did you see the latest news about the framework update? It looks promising.",
       time: "19:00",
     },
     {
       chatId: 3,
       title: "Michael Garcia",
       image: "https://www.w3schools.com/w3images/avatar3.png",
-      lastMessage: "Can we reschedule our meeting to tomorrow morning? I have an urgent matter to attend to.",
+      lastMessage:
+        "Can we reschedule our meeting to tomorrow morning? I have an urgent matter to attend to.",
       time: "18:15",
     },
     {
       chatId: 4,
       title: "Sarah Wilson",
       image: "https://www.w3schools.com/w3images/avatar4.png",
-      lastMessage: "That sounds like a great idea! Let's discuss the details when we meet.",
+      lastMessage:
+        "That sounds like a great idea! Let's discuss the details when we meet.",
       time: "17:30",
     },
     {
       chatId: 5,
       title: "Jessica Davis",
       image: "https://www.w3schools.com/w3images/avatar5.png",
-      lastMessage: "I'm heading out now. I'll catch you later this evening for our regular call.",
+      lastMessage:
+        "I'm heading out now. I'll catch you later this evening for our regular call.",
       time: "16:45",
     },
     {

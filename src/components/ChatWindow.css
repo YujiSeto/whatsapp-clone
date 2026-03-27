@@ -39,6 +39,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  overflow: hidden;
+  transition: all ease 0.3s;
 }
 .chatWindow--body {
   flex: 1;
@@ -74,4 +76,16 @@
 .chatWindow--pos {
   display: flex;
   margin: 0 15px;
+}
+.chatWindow--emojiarea {
+  height: 0px;
+  overflow-y: hidden;
+  transition: all ease 0.3s;
+}
+.EmojiPickerReact {
+  width: auto !important;
+  background: none !important;
+}
+.EmojiPickerReact .epr-emoji-category-label {
+  background: none !important;
 }

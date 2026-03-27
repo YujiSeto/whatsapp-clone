@@ -2,7 +2,7 @@ import React from "react";
 import "./ChatIntro.css";
 import IntroImage from "../assets/intro-connection.jpg";
 
-export default () => {
+const ChatIntro = () => {
   return (
     <div className="chatIntro">
       <img src={IntroImage} alt="WhatsApp Intro" />
@@ -15,3 +15,6 @@ export default () => {
     </div>
   );
 };
+
+export default ChatIntro;
+
