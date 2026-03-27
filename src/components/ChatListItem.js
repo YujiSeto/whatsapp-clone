@@ -21,4 +21,3 @@ const ChatListItem = ({ onClick, active, data }) => {
 };
 
 export default ChatListItem;
-

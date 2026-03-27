@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./ChatWindow.css";
+
 import EmojiPicker from "emoji-picker-react";
+import MessageItem from "./MessageItem";
 
 import SearchIcon from "@mui/icons-material/Search";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -10,7 +12,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import MicIcon from "@mui/icons-material/Mic";
 
-const ChatWindow = () => {
+const ChatWindow = ({ user }) => {
+  const body = useRef();
+
   let recognition = null;
   let SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -21,6 +25,45 @@ const ChatWindow = () => {
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [text, setText] = useState("");
   const [listening, setListening] = useState(false);
+  const [list /*setList*/] = useState([
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+    { body: "Oi oi oi", time: "12:00", author: 1 },
+    { body: "Oi oi oi", time: "12:00", author: 2 },
+  ]);
+
+  useEffect(() => {
+    if (body.current.scrollHeight > body.current.offsetHeight) {
+      body.current.scrollTop =
+        body.current.scrollHeight - body.current.offsetHeight;
+    }
+  }, [list]);
 
   const handleEmojiClick = (emojiObject) => {
     setText((prevText) => prevText + emojiObject.emoji);
@@ -76,7 +119,11 @@ const ChatWindow = () => {
           </div>
         </div>
       </div>
-      <div className="chatWindow--body"></div>
+      <div ref={body} className="chatWindow--body">
+        {list.map((item, key) => (
+          <MessageItem key={key} data={item} user={user} />
+        ))}
+      </div>
       <div
         className="chatWindow--emojiarea"
         style={{ height: emojiOpen ? "40%" : "0px" }}
@@ -132,4 +179,3 @@ const ChatWindow = () => {
 };
 
 export default ChatWindow;
-
