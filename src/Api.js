@@ -18,6 +18,15 @@ const Api = {
       return null;
     }
   },
+  demoLogin: async () => {
+    try {
+      let result = await firebaseApp.auth().signInAnonymously();
+      return result;
+    } catch (error) {
+      console.error("Anonymous login error: ", error);
+      return null;
+    }
+  },
   logout: async () => {
     await firebaseApp.auth().signOut();
   },

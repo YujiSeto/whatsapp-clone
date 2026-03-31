@@ -47,8 +47,13 @@ function Login({ onReceive }) {
   };
 
   const handleDemoLogin = async (user) => {
-    await Api.addUser(user);
-    onReceive(user);
+    let result = await Api.demoLogin();
+    if (result) {
+      await Api.addUser(user);
+      onReceive(user);
+    } else {
+      alert("Error: Anonymous login is blocked by database. Please check Firebase settings.");
+    }
   };
 
   return (
