@@ -1,24 +1,29 @@
-# WhatsApp Clone (Web)
+# WhatsApp Clone (Web & Mobile)
 
-A realistic and fully functional WhatsApp Web clone built from the ground up using **React.js** and **Firebase**. This project features real-time messaging, real authentication, and a dedicated demo environment to quickly test functionalities.
+A highly realistic and fully functional WhatsApp Web clone built from the ground up using **React.js** and **Firebase**. This project goes beyond basic messaging by featuring a truly responsive layout, real-time Firestore synchronization, advanced chat features, and a dedicated demo environment for quick testing.
 
 ---
 
 ## 🌟 Key Features
 
-- **Real-Time Messaging**: Engage in instant messaging powered by Firebase Cloud Firestore.
-- **Google Authentication**: Fully integrated, secure, and seamless login flow utilizing Firebase Auth.
-- **Demo Login System**: Easily test chat scenarios without external accounts by logging in as one of the 6 pre-configured Demo Users directly from the login screen.
-- **Premium UI**: Crafted to closely match the official WhatsApp Web aesthetic, ensuring a polished and intuitive user experience.
-- **Secure Architecture**: Firebase credentials are securely managed via `.env` variables, preventing exposure on GitHub or unauthorized usage.
+- **📱 Fully Responsive Design**: Seamlessly adapts to any screen size. On mobile devices, it perfectly mimics the native app behavior by smoothly sliding between the chat list sidebar and the active chat window, ensuring an optimized mobile experience.
+- **⚡ Real-Time Messaging**: Engage in instant messaging powered by Firebase Cloud Firestore, featuring dynamic real-time sorting of the chat list based on the latest messages.
+- **🔐 Google & Demo Authentication**: Includes a secure and seamless login flow utilizing Firebase Auth via Google. It also features a built-in **Demo Login System** — easily test chat scenarios by selecting one of the 6 pre-configured avatars to bypass external authentication.
+- **🎤 Speech-to-Text Input**: Integrated Web Speech API allows users to dictate messages using their microphone directly into the chat input.
+- **😀 Emoji Picker**: Fully integrated emoji support using `emoji-picker-react` for a richer messaging experience.
+- **🛡️ Advanced Moderation & Spam Protection**:
+  - **Profanity Filter**: Automatically detecting and censoring bad words.
+  - **Anti-Spam System**: Tracks message frequency and instantly applies a temporary ban (timeout) if a user sends messages too rapidly.
+- **✨ Premium UI**: Crafted to closely match the official WhatsApp aesthetic, complete with CSS gradients, custom scrollbars, and fluid animations.
 
 ## 🛠️ Technologies Used
 
 - **Frontend**: React.js (Hooks, Functional Components)
 - **Database Backend**: Firebase Cloud Firestore (NoSQL)
-- **Authentication**: Firebase Authentication (Google Auth Provider)
+- **Authentication**: Firebase Authentication (Google Auth Provider & Anonymous Login)
 - **Icons Elements**: Material-UI (MUI) Icons
-- **Styling**: Vanilla CSS (Flexbox, CSS Grid)
+- **Styling**: Vanilla CSS (Flexbox, CSS Grid, Media Queries)
+- **Add-ons**: Web Speech API, `emoji-picker-react`
 
 ## 🚀 Getting Started
 
@@ -58,8 +63,8 @@ Make sure you have [Node.js](https://nodejs.org/) and `npm` installed on your ma
 If you just want to test the chat behavior without setting up multiple Google accounts:
 1. Start the app and wait for the Login Screen.
 2. Under the Google Login button, select any of the pre-configured avatars (e.g., James Miller, Robert Brown).
-3. The app will bypass the external authentication and register the chosen identity into the Firestore database, allowing you to instantly chat with other connected clients.
+3. The app will bypass the external authentication and register the chosen identity into the Firestore database, allowing you to instantly interact with the application.
 
 ## 📝 About
 
-Developed by [YujiSeto](https://yujiseto.github.io) for educational purposes and portfolio building. 
+Developed by [YujiSeto](https://yujiseto.github.io) for educational purposes and portfolio building.
