@@ -135,9 +135,18 @@ const Api = {
       .collection("messages")
       .orderBy("date", "asc")
       .onSnapshot((snapshot) => {
+        let now = new Date();
         let messages = [];
         snapshot.forEach((doc) => {
-          messages.push({ id: doc.id, ...doc.data() });
+          let msgData = { id: doc.id, ...doc.data() };
+          let expire = msgData.expireAt
+            ? msgData.expireAt.toDate
+              ? msgData.expireAt.toDate()
+              : new Date(msgData.expireAt)
+            : null;
+          if (!expire || expire > now) {
+            messages.push(msgData);
+          }
         });
         setList(messages);
       });
