@@ -100,3 +100,60 @@
 .EmojiPickerReact .epr-emoji-category-label {
   background: none !important;
 }
+
+@media (max-width: 768px) {
+  .chatWindow--body {
+    padding: 10px 12px;
+  }
+
+  .chatWindow--header {
+    background-color: #f0f2f5;
+    padding: 0 4px;
+  }
+
+  .chatWindow--avatar {
+    margin-left: 8px;
+    margin-right: 10px;
+  }
+
+  .chatWindow--name {
+    font-size: 15px;
+  }
+
+  .chatWindow--headerbuttons {
+    margin-right: 4px;
+  }
+
+  .chatWindow--pre {
+    margin: 0 8px;
+  }
+
+  .chatWindow--pos {
+    margin: 0 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chatWindow--input {
+    font-size: 14px;
+    height: 38px;
+  }
+
+  .chatWindow--btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .chatWindow--avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .chatWindow--name {
+    font-size: 14px;
+  }
+
+  .messageItem {
+    max-width: 95%;
+  }
+}

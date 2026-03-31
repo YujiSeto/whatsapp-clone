@@ -10,7 +10,17 @@
   flex-direction: column;
   border-right: 1px solid #ddd;
   transition: all ease-in-out 0.5s;
+  z-index: 10;
 }
+
+@media (max-width: 768px) {
+  .newChat {
+    width: 100%;
+    max-width: none;
+    border-right: none;
+  }
+}
+
 .newChat--head {
   display: flex;
   background-color: #00bfa5;

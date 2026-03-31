@@ -53,7 +53,9 @@ const App = () => {
   };
 
   return (
-    <div className="app-window">
+    <div
+      className={`app-window${activeChat.chatId !== undefined ? " chat-open" : ""}`}
+    >
       <div className="sidebar">
         <NewChat
           chatList={chatList}
@@ -63,12 +65,21 @@ const App = () => {
           setActiveChat={setActiveChat}
         />
         <header>
-          <img className="header-avatar" src={user.avatar} alt={user.name} title={user.name} />
+          <img
+            className="header-avatar"
+            src={user.avatar}
+            alt={user.name}
+            title={user.name}
+          />
           <div className="header-buttons">
             <div className="header-btn" title="Status">
               <DonutLargeIcon style={{ color: "#919191" }} />
             </div>
-            <div onClick={handleNewChat} className="header-btn" title="New Chat">
+            <div
+              onClick={handleNewChat}
+              className="header-btn"
+              title="New Chat"
+            >
               <ChatIcon style={{ color: "#919191" }} />
             </div>
             <div onClick={handleLogout} className="header-btn" title="Exit">
@@ -100,7 +111,12 @@ const App = () => {
       </div>
       <div className="contentarea">
         {activeChat.chatId !== undefined && (
-          <ChatWindow key={activeChat.chatId} user={user} data={activeChat} setActiveChat={setActiveChat} />
+          <ChatWindow
+            key={activeChat.chatId}
+            user={user}
+            data={activeChat}
+            setActiveChat={setActiveChat}
+          />
         )}
         {activeChat.chatId === undefined && <ChatIntro />}
       </div>

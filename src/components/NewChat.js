@@ -30,7 +30,7 @@ const NewChat = ({ user, chatList, show, setShow, setActiveChat }) => {
   };
 
   return (
-    <div className="newChat" style={{ left: show ? 0 : -415 }}>
+    <div className="newChat" style={{ left: show ? 0 : "-100vw" }}>
       <div className="newChat--head">
         <div onClick={handleClose} className="newChat-backbutton">
           <ArrowBackIcon style={{ color: "#fff" }} />
