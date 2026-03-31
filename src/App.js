@@ -10,6 +10,7 @@ import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import ChatIcon from "@mui/icons-material/Chat";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NewChat from "./components/NewChat";
 import Login from "./components/Login";
 
@@ -44,6 +45,11 @@ const App = () => {
     setShowNewChat(true);
   };
 
+  const handleLogout = async () => {
+    await Api.logout();
+    setUser(null);
+  };
+
   return (
     <div className="app-window">
       <div className="sidebar">
@@ -52,17 +58,21 @@ const App = () => {
           user={user}
           show={showNewChat}
           setShow={setShowNewChat}
+          setActiveChat={setActiveChat}
         />
         <header>
-          <img className="header-avatar" src={user.avatar} alt={user.name} />
+          <img className="header-avatar" src={user.avatar} alt={user.name} title={user.name} />
           <div className="header-buttons">
-            <div className="header-btn">
+            <div className="header-btn" title="Status">
               <DonutLargeIcon style={{ color: "#919191" }} />
             </div>
-            <div onClick={handleNewChat} className="header-btn">
+            <div onClick={handleNewChat} className="header-btn" title="New Chat">
               <ChatIcon style={{ color: "#919191" }} />
             </div>
-            <div className="header-btn">
+            <div onClick={handleLogout} className="header-btn" title="Exit">
+              <ExitToAppIcon style={{ color: "#919191" }} />
+            </div>
+            <div className="header-btn" title="More">
               <MoreVertIcon style={{ color: "#919191" }} />
             </div>
           </div>
@@ -88,7 +98,7 @@ const App = () => {
       </div>
       <div className="contentarea">
         {activeChat.chatId !== undefined && (
-          <ChatWindow user={user} data={activeChat} />
+          <ChatWindow user={user} data={activeChat} setActiveChat={setActiveChat} />
         )}
         {activeChat.chatId === undefined && <ChatIntro />}
       </div>

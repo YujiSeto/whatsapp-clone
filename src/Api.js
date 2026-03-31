@@ -18,6 +18,9 @@ const Api = {
       return null;
     }
   },
+  logout: async () => {
+    await firebaseApp.auth().signOut();
+  },
   addUser: async (u) => {
     await db.collection("users").doc(u.id).set(
       {
@@ -45,22 +48,35 @@ const Api = {
     return list;
   },
   addNewChat: async (user, user2) => {
+    let u = await db.collection("users").doc(user.id).get();
+    let uData = u.data();
+    if (uData.chats) {
+      for (let i in uData.chats) {
+        if (uData.chats[i].with === user2.id) {
+          return uData.chats[i];
+        }
+      }
+    }
+
     let newChat = await db.collection("chats").add({
       messages: [],
       users: [user.id, user2.id],
     });
 
+    let newChatObjForUser = {
+      chatId: newChat.id,
+      title: user2.name,
+      image: user2.avatar,
+      with: user2.id,
+    };
+
     await db
       .collection("users")
       .doc(user.id)
       .update({
-        chats: firebase.firestore.FieldValue.arrayUnion({
-          chatId: newChat.id,
-          title: user2.name,
-          image: user2.avatar,
-          with: user2.id,
-        }),
+        chats: firebase.firestore.FieldValue.arrayUnion(newChatObjForUser),
       });
+
     await db
       .collection("users")
       .doc(user2.id)
@@ -72,6 +88,8 @@ const Api = {
           with: user.id,
         }),
       });
+
+    return newChatObjForUser;
   },
   onChatList: (userId, setChatList) => {
     return db

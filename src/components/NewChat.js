@@ -4,7 +4,7 @@ import "./NewChat.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Api from "../Api";
 
-const NewChat = ({ user, chatList, show, setShow }) => {
+const NewChat = ({ user, chatList, show, setShow, setActiveChat }) => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -18,7 +18,10 @@ const NewChat = ({ user, chatList, show, setShow }) => {
   }, [user]);
 
   const addNewChat = async (user2) => {
-    await Api.addNewChat(user, user2);
+    let chatInfo = await Api.addNewChat(user, user2);
+    if (chatInfo) {
+      setActiveChat(chatInfo);
+    }
     handleClose();
   };
 

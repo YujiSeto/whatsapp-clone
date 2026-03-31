@@ -13,7 +13,7 @@ import SendIcon from "@mui/icons-material/Send";
 import MicIcon from "@mui/icons-material/Mic";
 import Api from "../Api";
 
-const ChatWindow = ({ user, data }) => {
+const ChatWindow = ({ user, data, setActiveChat }) => {
   const body = useRef();
 
   let recognition = null;
@@ -43,6 +43,25 @@ const ChatWindow = ({ user, data }) => {
         body.current.scrollHeight - body.current.offsetHeight;
     }
   }, [list]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        if (emojiOpen) {
+          setEmojiOpen(false);
+        } else {
+          setActiveChat({});
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [emojiOpen, setActiveChat]);
+
+  const handleCloseChat = () => {
+    setActiveChat({});
+  };
+
 
   const handleEmojiClick = (emojiObject) => {
     setText((prevText) => prevText + emojiObject.emoji);
@@ -93,17 +112,21 @@ const ChatWindow = ({ user, data }) => {
             className="chatWindow--avatar"
             src={data.image}
             alt={data.title}
+            title={data.title}
           />
           <div className="chatWindow--name">{data.title}</div>
         </div>
         <div className="chatWindow--headerbuttons">
-          <div className="chatWindow--btn">
+          <div className="chatWindow--btn" title="Search">
             <SearchIcon style={{ color: "#919191" }} />
           </div>
-          <div className="chatWindow--btn">
+          <div className="chatWindow--btn" title="Attach File">
             <AttachFileIcon style={{ color: "#919191" }} />
           </div>
-          <div className="chatWindow--btn">
+          <div className="chatWindow--btn" onClick={handleCloseChat} title="Close Chat">
+            <CloseIcon style={{ color: "#919191" }} />
+          </div>
+          <div className="chatWindow--btn" title="More">
             <MoreVertIcon style={{ color: "#919191" }} />
           </div>
         </div>
