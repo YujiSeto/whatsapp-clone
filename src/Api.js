@@ -7,6 +7,8 @@ import firebaseConfig from "./firebaseConfig";
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 
+const TTL_DAYS = 30;
+
 const Api = {
   googlePopup: async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -41,8 +43,7 @@ const Api = {
   },
   getContactList: async (userId) => {
     let list = [];
-
-    let results = await db.collection("users").get();
+    let results = await db.collection("users").limit(100).get();
     results.forEach((result) => {
       let data = result.data();
       if (result.id !== userId) {
@@ -53,7 +54,6 @@ const Api = {
         });
       }
     });
-
     return list;
   },
   addNewChat: async (user, user2) => {
@@ -68,8 +68,8 @@ const Api = {
     }
 
     let newChat = await db.collection("chats").add({
-      messages: [],
       users: [user.id, user2.id],
+      createdAt: new Date(),
     });
 
     let newChatObjForUser = {
@@ -122,29 +122,45 @@ const Api = {
       });
   },
   onChatContent: (chatId, setList, setUsers) => {
-    return db
-      .collection("chats")
-      .doc(chatId)
-      .onSnapshot((doc) => {
-        if (doc.exists) {
-          let data = doc.data();
-          setList(data.messages);
-          setUsers(data.users);
-        }
+    let chatRef = db.collection("chats").doc(chatId);
+
+    let unsubChat = chatRef.onSnapshot((doc) => {
+      if (doc.exists) {
+        let data = doc.data();
+        setUsers(data.users || []);
+      }
+    });
+
+    let unsubMessages = chatRef
+      .collection("messages")
+      .orderBy("date", "asc")
+      .onSnapshot((snapshot) => {
+        let messages = [];
+        snapshot.forEach((doc) => {
+          messages.push({ id: doc.id, ...doc.data() });
+        });
+        setList(messages);
       });
+
+    return () => {
+      unsubChat();
+      unsubMessages();
+    };
   },
   sendMessage: async (chatData, userId, type, body, users) => {
     let now = new Date();
+    let expireAt = new Date(now.getTime() + TTL_DAYS * 24 * 60 * 60 * 1000);
 
-    db.collection("chats")
+    await db
+      .collection("chats")
       .doc(chatData.chatId)
-      .update({
-        messages: firebase.firestore.FieldValue.arrayUnion({
-          type,
-          author: userId,
-          body,
-          date: now,
-        }),
+      .collection("messages")
+      .add({
+        type,
+        author: userId,
+        body,
+        date: now,
+        expireAt,
       });
 
     for (let i in users) {
@@ -159,9 +175,7 @@ const Api = {
             break;
           }
         }
-        await db.collection("users").doc(users[i]).update({
-          chats,
-        });
+        await db.collection("users").doc(users[i]).update({ chats });
       }
     }
   },
