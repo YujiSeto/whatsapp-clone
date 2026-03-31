@@ -1,0 +1,132 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+  background-image: linear-gradient(
+    to bottom,
+    #00a884 0%,
+    #00a884 210px,
+    #f0f2f5 210px,
+    #f0f2f5 100%
+  );
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-container {
+  background-color: #fff;
+  padding: 50px;
+  border-radius: 3px;
+  box-shadow:
+    0 17px 50px 0 rgba(0, 0, 0, 0.19),
+    0 12px 15px 0 rgba(0, 0, 0, 0.24);
+  text-align: center;
+  width: 400px;
+}
+
+.login-logo {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.login-title {
+  color: #41525d;
+  font-size: 24px;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+.login-btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  background-color: #fff;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  color: #3c4043;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 25px;
+}
+
+.login-btn-google img {
+  width: 18px;
+  margin-right: 10px;
+}
+
+.login-btn-google:hover {
+  background-color: #f7f8f8;
+}
+
+/* Divider styles */
+.login-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #8696a0;
+  font-size: 12px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #e9edef;
+}
+
+.login-divider span {
+  padding: 0 10px;
+}
+
+/* Demo Grid styles */
+.login-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.login-demo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f7f8f8;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+}
+
+.login-demo-item:hover {
+  background-color: #f0f2f5;
+  transform: translateY(-2px);
+}
+
+.login-demo-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.login-demo-item span {
+  font-size: 13px;
+  color: #41525d;
+  font-weight: 500;
+}
+
+.login-footer {
+  position: absolute;
+  bottom: 20px;
+  color: #8696a0;
+  font-size: 13px;
+}

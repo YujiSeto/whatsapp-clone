@@ -11,8 +11,9 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import MicIcon from "@mui/icons-material/Mic";
+import Api from "../Api";
 
-const ChatWindow = ({ user }) => {
+const ChatWindow = ({ user, data }) => {
   const body = useRef();
 
   let recognition = null;
@@ -25,38 +26,16 @@ const ChatWindow = ({ user }) => {
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [text, setText] = useState("");
   const [listening, setListening] = useState(false);
-  const [list /*setList*/] = useState([
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-    { body: "Oi oi oi", time: "12:00", author: 1 },
-    { body: "Oi oi oi", time: "12:00", author: 2 },
-  ]);
+  const [list, setList] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    if (data.chatId !== undefined) {
+      setList([]);
+      let unsub = Api.onChatContent(data.chatId, setList, setUsers);
+      return unsub;
+    }
+  }, [data.chatId]);
 
   useEffect(() => {
     if (body.current.scrollHeight > body.current.offsetHeight) {
@@ -92,8 +71,18 @@ const ChatWindow = ({ user }) => {
     }
   };
 
+  const handleInputKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      handleSendClick();
+    }
+  };
+
   const handleSendClick = () => {
-    console.log("Send clicked");
+    if (text.trim() !== "") {
+      Api.sendMessage(data, user.id, "text", text, users);
+      setText("");
+      setEmojiOpen(false);
+    }
   };
 
   return (
@@ -102,10 +91,10 @@ const ChatWindow = ({ user }) => {
         <div className="chatWindow--headerinfo">
           <img
             className="chatWindow--avatar"
-            src="https://www.w3schools.com/w3images/avatar2.png"
-            alt=""
+            src={data.image}
+            alt={data.title}
           />
-          <div className="chatWindow--name">User Name</div>
+          <div className="chatWindow--name">{data.title}</div>
         </div>
         <div className="chatWindow--headerbuttons">
           <div className="chatWindow--btn">
@@ -159,6 +148,7 @@ const ChatWindow = ({ user }) => {
             placeholder="Type a message"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            onKeyUp={handleInputKeyUp}
           />
         </div>
         <div className="chatWindow--pos">

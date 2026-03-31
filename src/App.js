@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
+import Api from "./Api";
 
 import ChatListItem from "./components/ChatListItem";
 import ChatIntro from "./components/ChatIntro";
@@ -10,64 +11,34 @@ import ChatIcon from "@mui/icons-material/Chat";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import NewChat from "./components/NewChat";
+import Login from "./components/Login";
 
 const App = () => {
-  const [chatList /*setChatList*/] = useState([
-    {
-      chatId: 1,
-      title: "James Miller",
-      image: "https://www.w3schools.com/w3images/avatar1.png",
-      lastMessage:
-        "I'll be there in 5 minutes! I'm just finishing up some things at the office.",
-      time: "19:45",
-    },
-    {
-      chatId: 2,
-      title: "Robert Brown",
-      image: "https://www.w3schools.com/w3images/avatar2.png",
-      lastMessage:
-        "Did you see the latest news about the framework update? It looks promising.",
-      time: "19:00",
-    },
-    {
-      chatId: 3,
-      title: "Michael Garcia",
-      image: "https://www.w3schools.com/w3images/avatar3.png",
-      lastMessage:
-        "Can we reschedule our meeting to tomorrow morning? I have an urgent matter to attend to.",
-      time: "18:15",
-    },
-    {
-      chatId: 4,
-      title: "Sarah Wilson",
-      image: "https://www.w3schools.com/w3images/avatar4.png",
-      lastMessage:
-        "That sounds like a great idea! Let's discuss the details when we meet.",
-      time: "17:30",
-    },
-    {
-      chatId: 5,
-      title: "Jessica Davis",
-      image: "https://www.w3schools.com/w3images/avatar5.png",
-      lastMessage:
-        "I'm heading out now. I'll catch you later this evening for our regular call.",
-      time: "16:45",
-    },
-    {
-      chatId: 6,
-      title: "Emily Martinez",
-      image: "https://www.w3schools.com/w3images/avatar6.png",
-      lastMessage: "See you later! Don't forget to send me the files.",
-      time: "15:00",
-    },
-  ]);
+  const [chatList, setChatList] = useState([]);
   const [activeChat, setActiveChat] = useState({});
-  const [user /*setUser*/] = useState({
-    id: 1,
-    name: "User",
-    avatar: "https://www.w3schools.com/w3images/avatar2.png",
-  });
+  const [user, setUser] = useState(null);
   const [showNewChat, setShowNewChat] = useState(false);
+
+  const handleLoginData = async (u) => {
+    let newUser = {
+      id: u.uid || u.id,
+      name: u.displayName || u.name,
+      avatar: u.photoURL || u.avatar,
+    };
+    await Api.addUser(newUser);
+    setUser(newUser);
+  };
+
+  useEffect(() => {
+    if (user !== null) {
+      let unsub = Api.onChatList(user.id, setChatList);
+      return unsub;
+    }
+  }, [user]);
+
+  if (user === null) {
+    return <Login onReceive={handleLoginData} />;
+  }
 
   const handleNewChat = () => {
     setShowNewChat(true);
@@ -116,7 +87,9 @@ const App = () => {
         </div>
       </div>
       <div className="contentarea">
-        {activeChat.chatId !== undefined && <ChatWindow user={user} />}
+        {activeChat.chatId !== undefined && (
+          <ChatWindow user={user} data={activeChat} />
+        )}
         {activeChat.chatId === undefined && <ChatIntro />}
       </div>
     </div>
