@@ -1,4 +1,5 @@
 import React from "react";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 import "./MessageItem.css";
 
 const MessageItem = ({ data, user }) => {
@@ -32,8 +33,15 @@ const MessageItem = ({ data, user }) => {
           backgroundColor: user.id === data.author ? "#dcf8c6" : "#fff",
         }}
       >
-        <div className="messageText">{data.body}</div>
-        <div className="messageDate">{time}</div>
+        <div className="messageText">
+          {data.body}
+          <span className="messageDateInline">
+            {time}
+            {user.id === data.author && (
+              <DoneAllIcon style={{ fontSize: 13, marginLeft: 5, color: "#999", verticalAlign: "middle", marginTop: "-3px" }} />
+            )}
+          </span>
+        </div>
       </div>
     </div>
   );

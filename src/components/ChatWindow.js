@@ -28,6 +28,10 @@ const ChatWindow = ({ user, data, setActiveChat }) => {
   const [listening, setListening] = useState(false);
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
+  const [isSending, setIsSending] = useState(false);
+  const [isBanned, setIsBanned] = useState(false);
+  const [banTimeLeft, setBanTimeLeft] = useState(0);
+  const [spamTracker, setSpamTracker] = useState([]);
 
   useEffect(() => {
     if (data.chatId !== undefined) {
@@ -62,7 +66,6 @@ const ChatWindow = ({ user, data, setActiveChat }) => {
     setActiveChat({});
   };
 
-
   const handleEmojiClick = (emojiObject) => {
     setText((prevText) => prevText + emojiObject.emoji);
   };
@@ -96,11 +99,59 @@ const ChatWindow = ({ user, data, setActiveChat }) => {
     }
   };
 
-  const handleSendClick = () => {
-    if (text.trim() !== "") {
-      Api.sendMessage(data, user.id, "text", text, users);
+  const handleSendClick = async () => {
+    if (text.trim() !== "" && !isBanned && !isSending) {
+      if (text.length > 1000) {
+        alert("Message too long! The limit is 1000 characters.");
+        return;
+      }
+
+      const now = Date.now();
+      const recentMessages = spamTracker.filter((t) => now - t < 3000);
+      if (recentMessages.length >= 4) {
+        setIsBanned(true);
+        setBanTimeLeft(15);
+        let timeLeft = 15;
+        const timer = setInterval(() => {
+          timeLeft--;
+          setBanTimeLeft(timeLeft);
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            setIsBanned(false);
+            setSpamTracker([]);
+          }
+        }, 1000);
+        return;
+      }
+      setSpamTracker([...recentMessages, now]);
+
+      const currentText = text;
       setText("");
       setEmojiOpen(false);
+      setIsSending(true);
+
+      const badWords = [
+        "porra",
+        "caralho",
+        "puta",
+        "merda",
+        "foda",
+        "cu",
+        "fuck",
+        "shit",
+        "bitch",
+        "asshole",
+        "dick",
+        "cunt",
+        "nigger",
+        "slut",
+      ];
+      const regex = new RegExp(`\\b(${badWords.join("|")})\\b`, "gi");
+      let cleanText = currentText.trim().replace(regex, "***");
+
+      Api.sendMessage(data, user.id, "text", cleanText, users);
+
+      setTimeout(() => setIsSending(false), 200);
     }
   };
 
@@ -123,7 +174,11 @@ const ChatWindow = ({ user, data, setActiveChat }) => {
           <div className="chatWindow--btn" title="Attach File">
             <AttachFileIcon style={{ color: "#919191" }} />
           </div>
-          <div className="chatWindow--btn" onClick={handleCloseChat} title="Close Chat">
+          <div
+            className="chatWindow--btn"
+            onClick={handleCloseChat}
+            title="Close Chat"
+          >
             <CloseIcon style={{ color: "#919191" }} />
           </div>
           <div className="chatWindow--btn" title="More">
@@ -168,10 +223,13 @@ const ChatWindow = ({ user, data, setActiveChat }) => {
           <input
             className="chatWindow--input"
             type="text"
-            placeholder="Type a message"
+            placeholder={isBanned ? `Spam detected. Wait ${banTimeLeft}s...` : "Type a message"}
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyUp={handleInputKeyUp}
+            disabled={isBanned}
+            maxLength={1000}
+            style={{ backgroundColor: isBanned ? "#ffcccc" : "" }}
           />
         </div>
         <div className="chatWindow--pos">

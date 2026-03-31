@@ -48,6 +48,8 @@ const App = () => {
   const handleLogout = async () => {
     await Api.logout();
     setUser(null);
+    setActiveChat({});
+    setChatList([]);
   };
 
   return (
@@ -98,7 +100,7 @@ const App = () => {
       </div>
       <div className="contentarea">
         {activeChat.chatId !== undefined && (
-          <ChatWindow user={user} data={activeChat} setActiveChat={setActiveChat} />
+          <ChatWindow key={activeChat.chatId} user={user} data={activeChat} setActiveChat={setActiveChat} />
         )}
         {activeChat.chatId === undefined && <ChatIntro />}
       </div>
